@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SRKP 3D Campus</title>
+
+<style>
+body{margin:0;background:black}
+#viewer{width:100%;height:100vh}
+</style>
+</head>
+
+<body>
+
+<div id="viewer"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script>
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);
+
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth,window.innerHeight);
+document.getElementById("viewer").appendChild(renderer.domElement);
+
+const loader = new THREE.TextureLoader();
+
+// IMPORTANT LINE
+loader.load("college.jpg", function(texture){
+
+const geometry = new THREE.BoxGeometry(10,5,10);
+
+const material = new THREE.MeshBasicMaterial({
+map: texture,
+side: THREE.BackSide
+});
+
+const cube = new THREE.Mesh(geometry,material);
+scene.add(cube);
+
+camera.position.z = 0.1;
+
+function animate(){
+requestAnimationFrame(animate);
+renderer.render(scene,camera);
+}
+animate();
+
+});
+
+</script>
+
+</body>
+</html>
